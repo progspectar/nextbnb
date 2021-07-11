@@ -1,10 +1,10 @@
 import houses from './houses.json';
 import House from '../components/House';
+import Layout from '../components/Layout';
 
-const Index = () => (
+const content = (
   <div>
     <h2>Places to stay</h2>
-
     <div className='houses'>
       {houses.map((house, index) => {
         return <House key={index} {...house} />;
@@ -20,5 +20,7 @@ const Index = () => (
     `}</style>
   </div>
 );
+
+const Index = () => <Layout content={content} />;
 
 export default Index;
