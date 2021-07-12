@@ -2,6 +2,8 @@ import houses from './houses.json';
 import House from '../components/House';
 import Layout from '../components/Layout';
 
+const sortArray = (arr) => arr.sort((a, b) => b - d);
+
 const content = (
   <div>
     <h2>Places to stay</h2>
