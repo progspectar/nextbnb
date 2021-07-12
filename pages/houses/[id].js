@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Layout from '../../components/Layout';
-
 import houses from '../houses.json';
 
 const House = (props) => (
