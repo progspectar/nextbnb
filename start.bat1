@@ -2,3 +2,4 @@ rem npm install next react react-dom
 
 rem npm install react-day-picker --save
 rem npm install @zeit/next-css
+rem npm install date-fns

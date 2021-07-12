@@ -3,7 +3,7 @@ import Link from 'next/link';
 const House = (props) => {
   return (
     <Link href='/houses/[id]' as={'/houses/' + props.id}>
-      <a>
+      <a target='_parent'>
         <img src={props.picture} width='100%' alt='House picture' />
         <p>
           {props.type} -{props.town}
