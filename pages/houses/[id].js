@@ -31,7 +31,6 @@ const House = (props) => (
           }
           aside {
             border: 1px solid #ccc;
-            grid-template-columns: 60% 40%;
             padding: 20px;
           }
         `}</style>
