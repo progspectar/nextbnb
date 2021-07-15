@@ -2,7 +2,7 @@ import houses from './houses.json';
 import House from '../components/House';
 import Layout from '../components/Layout';
 
-const sortArray = (arr) => arr.sort((a, b) => b - d);
+const sortArray = (arr) => arr.sort((a, b) => b - a);
 
 const content = (
   <div>
