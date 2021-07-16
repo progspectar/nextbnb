@@ -1,7 +1,8 @@
 import { formatDate } from '../libs/date-utils';
 
-export const DayPickerInput = ({ datesChanged, id, name, setDate }) => {
+export const DayPickerInput = ({ datesChanged, id, name }) => {
   const onChange = (e) => {
+    datesChanged(e.target.value);
     //setDate(e.target.value);
     //datesChanged(e.target.value);
   };

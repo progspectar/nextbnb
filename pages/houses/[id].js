@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Layout from '../../components/Layout';
 import DateRangePicker from '../../components/DateRangePicker';
+import { useStoreActions } from 'easy-peasy';
 
 import houses from '../houses.json';
 
@@ -18,12 +19,31 @@ const calcNumberOfNightsBetweenDates = (startDate, endDate) => {
   return dayCount;
 };
 
-const House = (props) => {
-  const [dateChosen, setDateChosen] = useState(false);
+const isDebug = true;
 
+const House = (props) => {
   const [numberOfNightsBetweenDates, setNumberOfNightsBetweenDates] = useState(
     0
   );
+
+  const [dateChosen, setDateChosen] = useState(false);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
+  const setShowLoginModal = useStoreActions((actions) => {
+    if (isDebug) {
+      console.log('setShowLoginModal');
+    }
+    return actions.modals.setShowLoginModal;
+  });
+
+  useEffect(() => {
+    // Обновляем название докуммента, используя API браузера
+    const text = `dateChosen: ${dateChosen} startDate  ${startDate}`;
+    const div = document.querySelector('#debug-div-ids');
+    if (div) div.textContent = text;
+    //
+  });
   return (
     <Layout
       content={
@@ -43,12 +63,16 @@ const House = (props) => {
           </article>
           <aside>
             <h2>Add dates for prices</h2>
+            <div id='debug-div-ids'>debug</div>
+
             <DateRangePicker
               datesChanged={(startDate, endDate) => {
                 setNumberOfNightsBetweenDates(
                   calcNumberOfNightsBetweenDates(startDate, endDate)
                 );
                 setDateChosen(true);
+                setStartDate(startDate);
+                setEndDate(endDate);
               }}
             />
             {dateChosen && (
@@ -59,7 +83,9 @@ const House = (props) => {
                 <p>
                   ${(numberOfNightsBetweenDates * props.house.price).toFixed(2)}
                 </p>
-                <button className='reserve'>Reserve</button>
+                <button className='reserve' onClick={() => setShowLoginModal}>
+                  Reserve
+                </button>
               </div>
             )}
           </aside>
