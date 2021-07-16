@@ -19,7 +19,7 @@ const calcNumberOfNightsBetweenDates = (startDate, endDate) => {
   return dayCount;
 };
 
-const isDebug = true;
+const isDebug = false;
 
 const House = (props) => {
   const [numberOfNightsBetweenDates, setNumberOfNightsBetweenDates] = useState(

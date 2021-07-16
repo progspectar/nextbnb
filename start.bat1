@@ -4,4 +4,5 @@ rem npm install react-day-picker --save
 rem npm install @zeit/next-css
 rem npm install date-fns
 rem npm install easy-peasy
-rem npm install moment --save 
+rem npm install moment --save
+rem npm install axios 
