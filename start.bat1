@@ -10,3 +10,4 @@ rem npm install pg sequelize
 rem npm install bcrypt
 rem npm install express
 rem npm install express-session passport passport-local connect-session-sequelize
+rem npm npm install passport passport-local
