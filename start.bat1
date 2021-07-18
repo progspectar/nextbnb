@@ -8,3 +8,5 @@ rem npm install moment --save
 rem npm install axios
 rem npm install pg sequelize 
 rem npm install bcrypt
+rem npm install express
+rem npm install express-session passport passport-local connect-session-sequelize
