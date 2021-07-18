@@ -1,6 +1,4 @@
-// import { User } from '../../model';
-
-const User = require('../../model');
+const User = require('../../../model');
 
 export default async (req, res) => {
   if (req.method !== 'POST') {
