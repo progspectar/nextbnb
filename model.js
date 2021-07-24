@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
+const Model = Sequelize.Model;
+const DataTypes = Sequelize.DataTypes;
 
 const user = 'postgres';
 const password = '123';
@@ -11,7 +13,7 @@ const sequelize = new Sequelize(database, user, password, {
   host: host,
   port: port,
   dialect: 'postgres',
-  logging: true,
+  logging: false,
 });
 
 sequelize.authenticate().then(
@@ -24,7 +26,7 @@ sequelize.authenticate().then(
   }
 );
 
-class User extends Sequelize.Model {}
+class User extends Model {}
 
 User.init(
   {
@@ -55,4 +57,5 @@ User.prototype.isPasswordValid = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-module.exports = User;
+exports.sequelize = sequelize;
+exports.User = User;
