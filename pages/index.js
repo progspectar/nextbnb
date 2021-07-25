@@ -1,4 +1,3 @@
-import houses from './houses.json';
 import House from '../components/House';
 import Layout from '../components/Layout';
 import fetch from 'isomorphic-unfetch';
