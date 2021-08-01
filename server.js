@@ -9,15 +9,15 @@ const handle = nextApp.getRequestHandler();
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const bodyParser = require('body-parser');
-
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+
+const houseRouter = require('./server/resourses/houses/house.router');
 
 const User = require('./models/user.js');
 const House = require('./models/house.js');
 const Review = require('./models/review.js');
 const Booking = require('./models/booking.js');
-
 const sequelize = require('./database.js');
 
 Booking.sync({ alter: true });
@@ -211,14 +211,31 @@ nextApp.prepare().then(() => {
     });
   });
 
-  server.get('/api/houses', (req, res) => {
-    House.findAndCountAll().then((result) => {
-      const houses = result.rows.map((house) => house.dataValues);
+  server.use('/api/houses', houseRouter);
+  // server.get('/api/houses', (req, res) => {
+  //   House.findAndCountAll().then((result) => {
+  //     const houses = result.rows.map((house) => house.dataValues);
+  //     res.writeHead(200, {
+  //       'Content-Type': 'application/json',
+  //     });
+  //     res.end(JSON.stringify(houses));
+  //   });
+  // });
 
-      res.writeHead(200, {
-        'Content-Type': 'application/json',
+  server.post('/api/houses/reserve', (req, res) => {
+    const userEmail = req.session.passport.user;
+    User.findOne({ where: { email: userEmail } }).then((user) => {
+      Booking.create({
+        houseId: req.body.houseId,
+        userId: user.id,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+      }).then(() => {
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+        });
+        res.end(JSON.stringify({ status: 'success', message: 'ok' }));
       });
-      res.end(JSON.stringify(houses));
     });
   });
 
