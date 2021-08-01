@@ -13,8 +13,17 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const User = require('./model').User;
-const sequelize = require('./model.js').sequelize;
+const User = require('./models/user.js');
+const House = require('./models/house.js');
+const Review = require('./models/review.js');
+const Booking = require('./models/booking.js');
+
+const sequelize = require('./database.js');
+
+Booking.sync({ alter: true });
+User.sync({ alter: true });
+House.sync({ alter: true });
+Review.sync({ alter: true });
 
 const sessionStore = new SequelizeStore({
   db: sequelize,
@@ -168,6 +177,66 @@ nextApp.prepare().then(() => {
     return res.end(
       JSON.stringify({ status: 'success', message: 'Logged out' })
     );
+  });
+
+  server.get('/api/houses/:id', (req, res) => {
+    const { id } = req.params;
+
+    House.findByPk(id).then((house) => {
+      if (house) {
+        Review.findAndCountAll({
+          where: {
+            houseId: house.id,
+          },
+        }).then((reviews) => {
+          house.dataValues.reviews = reviews.rows.map(
+            (review) => review.dataValues
+          );
+          house.dataValues.reviewsCount = reviews.count;
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+          });
+          res.end(JSON.stringify(house.dataValues));
+        });
+      } else {
+        res.writeHead(404, {
+          'Content-Type': 'application/json',
+        });
+        res.end(
+          JSON.stringify({
+            message: `Not found`,
+          })
+        );
+      }
+    });
+  });
+
+  server.get('/api/houses', (req, res) => {
+    House.findAndCountAll().then((result) => {
+      const houses = result.rows.map((house) => house.dataValues);
+
+      res.writeHead(200, {
+        'Content-Type': 'application/json',
+      });
+      res.end(JSON.stringify(houses));
+    });
+  });
+
+  server.post('/api/houses/reserve', (req, res) => {
+    const userEmail = req.session.passport.user;
+    User.findOne({ where: { email: userEmail } }).then((user) => {
+      Booking.create({
+        houseId: req.body.houseId,
+        userId: user.id,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+      }).then(() => {
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+        });
+        res.end(JSON.stringify({ status: 'success', message: 'ok' }));
+      });
+    });
   });
 
   server.all('*', (req, res) => {
