@@ -1,22 +1,15 @@
 const router = require('express').Router();
-const House = require('../../../models/house');
-
-const getAll = async () => {
-  try {
-    const result = await House.findAndCountAll();
-    const houses = result.rows.map((house) => {
-      return house.dataValues;
-    });
-    return { status: 200, ref: houses };
-  } catch (error) {
-    return { status: 400, ref: error };
-  }
-};
+const houseService = require('./house.service');
 
 router.route('/').get(async (req, res) => {
-  const data = await getAll();
-  console.log('data', data);
-  res.status(200).json(data.ref);
+  const result = await houseService.getAll();
+  res.status(200).json(result.ref);
+});
+
+router.route('/:id').get(async (req, res) => {
+  const { id } = req.params;
+  const result = await houseService.getById(id);
+  res.status(result.status).json(result.ref);
 });
 
 module.exports = router;

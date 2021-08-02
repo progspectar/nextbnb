@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "start": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./test/setup.js"
+    ]
+  },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.19.0",
@@ -31,6 +38,13 @@
     "react": "^16.11.0",
     "react-day-picker": "^7.4.0",
     "react-dom": "^16.11.0",
-    "sequelize": "^4.41.0"
+    "sequelize": "^4.41.0",
+    "cross-env": "7.0.3",
+    "dotenv": "9.0.0",
+    "jest": "26.6.3",
+    "chai": "4.3.4",
+    "debug": "4.3.1",
+    "dirty-chai": "2.0.1",
+    "supertest": "6.1.3"
   }
 }

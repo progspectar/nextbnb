@@ -32,11 +32,11 @@ const Index = (props) => {
 };
 
 Index.getInitialProps = async () => {
-  const res = await fetch(`http://localhost:3000/api/houses`);
-  const houses = await res.json();
+  const res = await fetch(`http://localhost:3000/api/houses`)
+  const houses = await res.json()
   return {
-    houses,
-  };
-};
+    houses
+  }
+}
 
-export default Index;
+export default 

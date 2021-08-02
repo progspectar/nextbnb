@@ -61,7 +61,6 @@ const House = (props) => {
               {props.house.type} - {props.house.town}
             </p>
             <p>{props.house.title}</p>
-            {/* {props.house.rating} ({props.house.reviewsCount}) */}
             {props.house.reviewsCount ? (
               <div className='reviews'>
                 <h3>{props.house.reviewsCount} Reviews</h3>
@@ -171,8 +170,8 @@ House.getInitialProps = async ({ query }) => {
   const { id } = query;
   const res = await fetch(`http://localhost:3000/api/houses/${id}`);
   const house = await res.json();
+
   return {
-    // house: houses.filter((house) => house.id === id)[0],
     house,
   };
 };
